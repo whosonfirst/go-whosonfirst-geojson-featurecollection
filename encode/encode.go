@@ -106,7 +106,7 @@ func (e *Encoder) write(body []byte) error {
 
 func (e *Encoder) Close() error {
 	e.writeFooter()
-	return nil
+	return e.opts.Writer.Close()
 }
 
 func (e *Encoder) WriteFeature(f geojson.Feature) error {

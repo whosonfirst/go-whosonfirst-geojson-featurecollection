@@ -22,9 +22,9 @@ func main() {
 	str_modes := strings.Join(modes, ",")
 
 	desc := fmt.Sprintf("A valid go-whosonfirst-index mode. Valid modes are: %s", str_modes)
-	
+
 	var mode = flag.String("mode", "repo", desc)
-	var out = flag.String("out", "", "Write results to this path. If empty results are written to STDOUT.")		
+	var out = flag.String("out", "", "Write results to this path. If empty results are written to STDOUT.")
 	var spr = flag.Bool("spr", false, "Encode features as a \"standard places response\" (SPR)")
 
 	flag.Parse()
@@ -42,16 +42,16 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		
+
 		fh, err := os.OpenFile(abs_path, os.O_RDWR|os.O_CREATE, 0644)
 
 		if err != nil {
 			log.Fatal(err)
 		}
-		
-	   	opts.Writer = fh
+
+		opts.Writer = fh
 	}
-	
+
 	opts.SPR = *spr
 
 	enc, err := encode.NewEncoder(opts)
@@ -76,7 +76,7 @@ func main() {
 
 		f, err := feature.LoadFeatureFromReader(fh)
 
-		if err != nil && !warning.IsWarning(err){
+		if err != nil && !warning.IsWarning(err) {
 			return err
 		}
 

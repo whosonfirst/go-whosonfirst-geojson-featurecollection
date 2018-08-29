@@ -44,6 +44,8 @@ func main() {
 
 Create a GeoJSON `FeatureCollection` from all the GeoJSON files processed by a `go-whosonfirst-index` index, optionally writing the results to a file. This example uses the `Listen()` which return a channel for sending features (to encode) to and a "done" channel to signal when there are no more features to encode.
 
+The "done" channel will trigger the encoder's `Close()` method which, in turn, will invoke the underlying writer's `Close()` method. That might be a little too much magic for anyone's good so this behaviour might change. The `Listen()` method might also get a different (better?) name...
+
 ```
 package main
 
