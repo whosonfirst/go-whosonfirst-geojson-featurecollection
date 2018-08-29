@@ -4,10 +4,12 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/whosonfirst/go-whosonfirst-cli/flags"
 	"github.com/whosonfirst/go-whosonfirst-geojson-featurecollection/encode"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
+	geojson_utils "github.com/whosonfirst/go-whosonfirst-geojson-v2/utils"
 	"github.com/whosonfirst/go-whosonfirst-index"
-	"github.com/whosonfirst/go-whosonfirst-index/utils"
+	index_utils "github.com/whosonfirst/go-whosonfirst-index/utils"
 	"github.com/whosonfirst/warning"
 	"io"
 	"log"
@@ -17,6 +19,9 @@ import (
 )
 
 func main() {
+
+	var has_properties flags.KeyValueArgs
+	flag.Var(&has_properties, "has-property", "Ensure that only features matching `properties.{PROPERTY}={VALUE}` are included. This flag can be passed multiple times.")
 
 	modes := index.Modes()
 	str_modes := strings.Join(modes, ",")
@@ -64,7 +69,7 @@ func main() {
 
 	f := func(fh io.Reader, ctx context.Context, args ...interface{}) error {
 
-		ok, err := utils.IsPrincipalWOFRecord(fh, ctx)
+		ok, err := index_utils.IsPrincipalWOFRecord(fh, ctx)
 
 		if err != nil {
 			return err
@@ -78,6 +83,24 @@ func main() {
 
 		if err != nil && !warning.IsWarning(err) {
 			return err
+		}
+
+		for _, kv := range has_properties {
+
+			path := kv.Key
+			value := kv.Value
+
+			if !strings.HasPrefix(path, "properties.") {
+				path = fmt.Sprintf("properties.%s", path)
+			}
+
+			possible := []string{path}
+
+			prop := geojson_utils.StringProperty(f.Bytes(), possible, "")
+
+			if prop != value {
+				return nil
+			}
 		}
 
 		feature_ch <- f

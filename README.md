@@ -123,14 +123,26 @@ type EncoderOptions struct {
 ### wof-encode-featurecollection
 
 ```
-./bin/wof-encode-featurecollection -h
+$> ./bin/wof-encode-featurecollection -h
 Usage of ./bin/wof-encode-featurecollection:
+  -has-property properties.{PROPERTY}={VALUE}
+    	Ensure that only features matching properties.{PROPERTY}={VALUE} are included. This flag can be passed multiple times.
   -mode string
     	A valid go-whosonfirst-index mode. Valid modes are: directory,feature,feature-collection,files,geojson-ls,meta,path,repo,sqlite (default "repo")
   -out string
     	Write results to this path. If empty results are written to STDOUT.
   -spr
     	Encode features as a "standard places response" (SPR)
+```
+
+For example:
+
+```
+$> ./bin/wof-encode-featurecollection -has-property 'properties.sfomuseum:placetype=gate' /usr/local/data/sfomuseum-data-architecture \
+   	| jq '[.["features"][]["properties"]["sfomuseum:placetype"]] | unique'
+[
+  "gate"
+]
 ```
 
 ## See also
