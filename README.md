@@ -140,6 +140,7 @@ For example:
 ```
 $> ./bin/wof-encode-featurecollection -has-property 'sfomuseum:placetype=gate' /usr/local/data/sfomuseum-data-architecture \
    	| jq '[.["features"][]["properties"]["sfomuseum:placetype"]] | unique'
+
 [
   "gate"
 ]
