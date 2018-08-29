@@ -125,8 +125,8 @@ type EncoderOptions struct {
 ```
 $> ./bin/wof-encode-featurecollection -h
 Usage of ./bin/wof-encode-featurecollection:
-  -has-property properties.{PROPERTY}={VALUE}
-    	Ensure that only features matching properties.{PROPERTY}={VALUE} are included. This flag can be passed multiple times.
+  -has-property 
+    	Ensure that only features matching 'properties.{PROPERTY}={VALUE}' are included. This flag can be passed multiple times.
   -mode string
     	A valid go-whosonfirst-index mode. Valid modes are: directory,feature,feature-collection,files,geojson-ls,meta,path,repo,sqlite (default "repo")
   -out string

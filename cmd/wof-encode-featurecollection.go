@@ -21,7 +21,7 @@ import (
 func main() {
 
 	var has_properties flags.KeyValueArgs
-	flag.Var(&has_properties, "has-property", "Ensure that only features matching `properties.{PROPERTY}={VALUE}` are included. This flag can be passed multiple times.")
+	flag.Var(&has_properties, "has-property", "Ensure that only features matching 'properties.{PROPERTY}={VALUE}' are included. This flag can be passed multiple times.")
 
 	modes := index.Modes()
 	str_modes := strings.Join(modes, ",")
